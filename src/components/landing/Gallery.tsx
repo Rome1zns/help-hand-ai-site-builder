@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const projects = [
   {
@@ -7,6 +8,7 @@ const projects = [
     color: "from-amber-900/40 to-amber-700/20",
     image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&h=400&fit=crop",
     description: "Уютный лендинг с онлайн-меню и бронированием столиков",
+    link: "/demo/coffee",
   },
   {
     title: "СтройГрупп",
@@ -14,6 +16,7 @@ const projects = [
     color: "from-slate-800/40 to-slate-600/20",
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=400&fit=crop",
     description: "Корпоративный сайт строительной компании с портфолио объектов",
+    link: "/demo/construction",
   },
   {
     title: "TechStore",
@@ -21,6 +24,7 @@ const projects = [
     color: "from-blue-900/40 to-blue-700/20",
     image: "https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=600&h=400&fit=crop",
     description: "Интернет-магазин электроники с каталогом и корзиной",
+    link: "/demo/techstore",
   },
   {
     title: "Фитнес-клуб",
@@ -28,6 +32,7 @@ const projects = [
     color: "from-green-900/40 to-green-700/20",
     image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop",
     description: "Сайт фитнес-клуба с расписанием тренировок и абонементами",
+    link: "/demo/fitness",
   },
   {
     title: "Блог путешественника",
@@ -35,6 +40,7 @@ const projects = [
     color: "from-orange-900/40 to-orange-700/20",
     image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&h=400&fit=crop",
     description: "Блог с фотографиями и маршрутами путешествий по миру",
+    link: "/demo/travel",
   },
   {
     title: "Студия дизайна",
@@ -42,6 +48,7 @@ const projects = [
     color: "from-purple-900/40 to-purple-700/20",
     image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop",
     description: "Портфолио дизайн-студии с кейсами и отзывами клиентов",
+    link: "/demo/design",
   },
 ];
 
@@ -61,13 +68,13 @@ const Gallery = () => (
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map((p, i) => (
+          <Link to={p.link} key={p.title}>
           <motion.div
-            key={p.title}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.1 }}
-            className="group glass-card rounded-3xl overflow-hidden cursor-pointer"
+            className="group glass-card rounded-3xl overflow-hidden cursor-pointer h-full"
           >
             <div className="h-64 overflow-hidden relative">
               <img
@@ -86,6 +93,7 @@ const Gallery = () => (
               <p className="text-sm text-muted-foreground leading-relaxed">{p.description}</p>
             </div>
           </motion.div>
+          </Link>
         ))}
       </div>
     </div>
