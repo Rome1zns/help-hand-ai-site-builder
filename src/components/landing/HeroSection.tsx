@@ -26,26 +26,27 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[120px] pointer-events-none" />
+    <section className="relative min-h-screen flex items-center justify-center pt-20 pb-12 overflow-hidden">
+      {/* Radial gradient overlays */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-primary/8 blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-primary/5 blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-4 text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs text-muted-foreground mb-8">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full glass text-xs text-muted-foreground mb-10 tracking-wide uppercase">
             <Sparkles size={14} className="text-primary" />
             Конструктор сайтов на базе ИИ
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight mb-6 text-gradient max-w-4xl mx-auto">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] mb-8 text-gradient-hero max-w-5xl mx-auto tracking-tight">
             Создайте сайт за 30 секунд с помощью ИИ
           </h1>
 
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12">
+          <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto mb-14 leading-relaxed">
             Опишите свой проект — и получите готовый сайт. Без кода, без дизайнера, без ожидания.
           </p>
         </motion.div>
@@ -53,41 +54,46 @@ const HeroSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="max-w-2xl mx-auto"
         >
-          <div className="relative glass-strong rounded-2xl p-1.5 glow-purple">
+          <div className="relative glass-strong rounded-2xl p-2 glow-accent">
             <div className="flex items-center gap-2">
               <input
                 type="text"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="Опишите сайт, который хотите создать..."
-                className="flex-1 bg-transparent border-none outline-none px-4 py-4 text-foreground placeholder:text-muted-foreground text-sm md:text-base"
+                className="flex-1 bg-transparent border-none outline-none px-5 py-5 text-foreground placeholder:text-muted-foreground text-sm md:text-base"
               />
-              <Button size="lg" className="rounded-xl shrink-0" onClick={handleGenerate}>
+              <Button size="lg" className="rounded-xl shrink-0 btn-premium px-6" onClick={handleGenerate}>
                 <ArrowRight size={18} />
               </Button>
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-2 mt-6">
+          <div className="flex flex-wrap justify-center gap-2.5 mt-8">
             {examples.map((ex) => (
               <button
                 key={ex}
                 onClick={() => setPrompt(ex)}
-                className="text-xs px-4 py-2 rounded-full glass hover:bg-white/10 text-muted-foreground hover:text-foreground transition-all cursor-pointer"
+                className="text-xs px-4 py-2.5 rounded-full glass hover:bg-white/10 hover:border-primary/20 text-muted-foreground hover:text-foreground transition-all duration-300 cursor-pointer"
               >
                 {ex}
               </button>
             ))}
           </div>
 
-          <div className="flex justify-center gap-8 mt-12">
-            {stats.map((s) => (
-              <div key={s.label} className="text-center">
-                <p className="text-2xl md:text-3xl font-bold text-primary">{s.value}</p>
-                <p className="text-xs text-muted-foreground mt-1">{s.label}</p>
+          <div className="flex justify-center items-center gap-12 mt-16">
+            {stats.map((s, i) => (
+              <div key={s.label} className="text-center flex items-center gap-12">
+                <div>
+                  <p className="text-3xl md:text-4xl font-bold text-primary tracking-tight">{s.value}</p>
+                  <p className="text-xs text-muted-foreground mt-1.5 tracking-wide uppercase">{s.label}</p>
+                </div>
+                {i < stats.length - 1 && (
+                  <div className="w-px h-10 bg-white/10" />
+                )}
               </div>
             ))}
           </div>

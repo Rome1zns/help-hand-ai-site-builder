@@ -46,17 +46,17 @@ const projects = [
 ];
 
 const Gallery = () => (
-  <section id="gallery" className="py-24 px-4">
+  <section id="gallery" className="py-32 px-4">
     <div className="container mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-16"
+        className="text-center mb-20"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Примеры сайтов</h2>
-        <p className="text-muted-foreground">Созданы на Help Hand за считанные секунды</p>
+        <h2 className="text-3xl md:text-5xl font-bold mb-5 tracking-tight">Примеры сайтов</h2>
+        <p className="text-muted-foreground text-lg">Созданы на Help Hand за считанные секунды</p>
       </motion.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -67,22 +67,23 @@ const Gallery = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.1 }}
-            className="group glass rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 cursor-pointer"
+            className="group glass-card rounded-3xl overflow-hidden cursor-pointer"
           >
-            <div className="h-56 overflow-hidden">
+            <div className="h-64 overflow-hidden relative">
               <img
                 src={p.image}
                 alt={p.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 loading="lazy"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
             </div>
-            <div className="p-5">
-              <div className="flex items-center justify-between mb-2">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-2.5">
                 <span className="font-semibold">{p.title}</span>
-                <span className="text-xs px-2.5 py-1 rounded-full bg-primary/15 text-primary">{p.category}</span>
+                <span className="text-xs px-3 py-1 rounded-full bg-primary/15 text-primary font-medium">{p.category}</span>
               </div>
-              <p className="text-xs text-muted-foreground">{p.description}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">{p.description}</p>
             </div>
           </motion.div>
         ))}

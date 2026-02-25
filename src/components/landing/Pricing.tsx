@@ -27,20 +27,20 @@ const plans = [
 ];
 
 const Pricing = () => (
-  <section id="pricing" className="py-24 px-4">
+  <section id="pricing" className="py-32 px-4">
     <div className="container mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-16"
+        className="text-center mb-20"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Тарифы</h2>
-        <p className="text-muted-foreground">Выберите план, который подходит вам</p>
+        <h2 className="text-3xl md:text-5xl font-bold mb-5 tracking-tight">Тарифы</h2>
+        <p className="text-muted-foreground text-lg">Выберите план, который подходит вам</p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
         {plans.map((plan, i) => (
           <motion.div
             key={plan.name}
@@ -48,27 +48,27 @@ const Pricing = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.15 }}
-            className={`relative rounded-2xl p-6 flex flex-col ${
+            className={`relative rounded-2xl p-7 flex flex-col transition-all duration-400 ${
               plan.featured
-                ? "glass-strong border-primary/40 glow-purple scale-[1.03]"
-                : "glass"
+                ? "glass-strong border-primary/40 glow-accent scale-[1.05] shadow-2xl"
+                : "glass-card"
             }`}
           >
             {plan.featured && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-semibold px-3 py-1 rounded-full bg-primary text-primary-foreground">
+              <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 text-xs font-semibold px-4 py-1.5 rounded-full btn-premium text-primary-foreground shadow-lg">
                 Популярный
               </span>
             )}
 
-            <h3 className="text-lg font-semibold mb-1">{plan.name}</h3>
-            <div className="mb-6">
-              <span className="text-3xl font-bold">{plan.price}</span>
-              <span className="text-sm text-muted-foreground ml-1">/ {plan.period}</span>
+            <h3 className="text-lg font-semibold mb-1.5">{plan.name}</h3>
+            <div className="mb-7">
+              <span className="text-4xl font-bold tracking-tight">{plan.price}</span>
+              <span className="text-sm text-muted-foreground ml-1.5">/ {plan.period}</span>
             </div>
 
-            <ul className="space-y-3 mb-8 flex-1">
+            <ul className="space-y-3.5 mb-9 flex-1">
               {plan.features.map((f) => (
-                <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
+                <li key={f} className="flex items-center gap-2.5 text-sm text-muted-foreground">
                   <Check size={16} className="text-primary shrink-0" />
                   {f}
                 </li>
@@ -76,7 +76,7 @@ const Pricing = () => (
             </ul>
 
             <Button
-              className={`w-full ${plan.featured ? "glow-purple" : ""}`}
+              className={`w-full ${plan.featured ? "btn-premium" : ""}`}
               variant={plan.featured ? "default" : "secondary"}
             >
               {plan.price === "0 ₸" ? "Начать бесплатно" : "Выбрать план"}

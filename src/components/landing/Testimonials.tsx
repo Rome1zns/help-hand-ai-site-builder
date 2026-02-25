@@ -23,17 +23,17 @@ const reviews = [
 ];
 
 const Testimonials = () => (
-  <section className="py-24 px-4">
+  <section className="py-32 px-4">
     <div className="container mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-16"
+        className="text-center mb-20"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Отзывы</h2>
-        <p className="text-muted-foreground">Что говорят наши пользователи</p>
+        <h2 className="text-3xl md:text-5xl font-bold mb-5 tracking-tight">Отзывы</h2>
+        <p className="text-muted-foreground text-lg">Что говорят наши пользователи</p>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -44,15 +44,15 @@ const Testimonials = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.12 }}
-            className="glass rounded-2xl p-6 flex flex-col"
+            className="glass-card rounded-2xl p-7 flex flex-col"
           >
-            <Quote size={24} className="text-primary/40 mb-4" />
-            <p className="text-sm text-muted-foreground flex-1 mb-6">{r.text}</p>
+            <Quote size={28} className="text-primary/30 mb-5" />
+            <p className="text-sm text-muted-foreground flex-1 mb-7 leading-relaxed">{r.text}</p>
             <div className="flex items-center gap-3">
               <img
                 src={r.avatar}
                 alt={r.name}
-                className="w-10 h-10 rounded-full object-cover"
+                className="w-12 h-12 rounded-full object-cover ring-2 ring-primary/20"
                 loading="lazy"
               />
               <div>
