@@ -1,13 +1,16 @@
-export type Msg = { role: "user" | "assistant"; content: string };
+export type Msg = { 
+  role: "user" | "assistant" | "system"; 
+  content: string;
+  agent?: string;
+  agentColor?: string;
+};
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-site`;
 
 export function extractHtmlCode(text: string): string | null {
-  // Try to extract from code blocks first
   const codeBlockMatch = text.match(/```(?:html)?\s*\n?([\s\S]*?)```/);
   if (codeBlockMatch) return codeBlockMatch[1].trim();
 
-  // If the response itself looks like HTML
   if (text.includes("<!DOCTYPE html>") || text.includes("<html")) {
     const start = text.indexOf("<!DOCTYPE html>") !== -1
       ? text.indexOf("<!DOCTYPE html>")
@@ -29,13 +32,16 @@ export async function streamChat({
   onDelta: (deltaText: string) => void;
   onDone: () => void;
 }) {
+  // Filter out system agent messages before sending to AI
+  const apiMessages = messages.filter(m => m.role !== "system");
+
   const resp = await fetch(CHAT_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
     },
-    body: JSON.stringify({ messages }),
+    body: JSON.stringify({ messages: apiMessages }),
   });
 
   if (!resp.ok) {
@@ -81,7 +87,6 @@ export async function streamChat({
     }
   }
 
-  // Final flush
   if (textBuffer.trim()) {
     for (let raw of textBuffer.split("\n")) {
       if (!raw) continue;
