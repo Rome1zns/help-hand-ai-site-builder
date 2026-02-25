@@ -1,34 +1,143 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import EditorToolbar from "@/components/editor/EditorToolbar";
 import ChatPanel from "@/components/editor/ChatPanel";
 import PreviewPanel from "@/components/editor/PreviewPanel";
 import FileTreePanel from "@/components/editor/FileTreePanel";
 import { streamChat, extractHtmlCode, type Msg } from "@/lib/streamChat";
+import { AGENTS, FINAL_AGENT } from "@/lib/agents";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import JSZip from "jszip";
+
+const SESSION_KEY = "helphand_session_id";
+
+function getSessionId(): string {
+  let id = localStorage.getItem(SESSION_KEY);
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem(SESSION_KEY, id);
+  }
+  return id;
+}
 
 const Editor = () => {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [generatedCode, setGeneratedCode] = useState("");
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const agentIndexRef = useRef(0);
+  const totalCharsRef = useRef(0);
+
+  // Load conversation history on mount
+  useEffect(() => {
+    const loadHistory = async () => {
+      const sessionId = getSessionId();
+      
+      // Find existing conversation
+      const { data: convos } = await supabase
+        .from("conversations")
+        .select("id")
+        .eq("session_id", sessionId)
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+      if (convos && convos.length > 0) {
+        const convId = convos[0].id;
+        setConversationId(convId);
+
+        const { data: msgs } = await supabase
+          .from("chat_messages")
+          .select("role, content, agent_name")
+          .eq("conversation_id", convId)
+          .order("created_at", { ascending: true });
+
+        if (msgs && msgs.length > 0) {
+          const restored: Msg[] = msgs.map((m: any) => ({
+            role: m.role as Msg["role"],
+            content: m.content,
+            ...(m.agent_name ? { agent: m.agent_name } : {}),
+          }));
+          setMessages(restored);
+
+          // Restore last generated code
+          const lastAssistant = msgs.filter((m: any) => m.role === "assistant").pop();
+          if (lastAssistant) {
+            const html = extractHtmlCode(lastAssistant.content);
+            if (html) setGeneratedCode(html);
+          }
+        }
+      }
+    };
+    loadHistory();
+  }, []);
+
+  const saveMessage = useCallback(async (convId: string, msg: Msg) => {
+    await supabase.from("chat_messages").insert({
+      conversation_id: convId,
+      role: msg.role,
+      content: msg.content,
+      agent_name: msg.agent || null,
+    });
+  }, []);
+
+  const ensureConversation = useCallback(async (): Promise<string> => {
+    if (conversationId) return conversationId;
+    const sessionId = getSessionId();
+    const { data } = await supabase
+      .from("conversations")
+      .insert({ session_id: sessionId })
+      .select("id")
+      .single();
+    const id = data!.id;
+    setConversationId(id);
+    return id;
+  }, [conversationId]);
+
+  const addAgentMessage = useCallback((agent: typeof AGENTS[0] | typeof FINAL_AGENT) => {
+    const msg: Msg = {
+      role: "system",
+      content: agent.statusMessage,
+      agent: agent.name,
+      agentColor: agent.textColor,
+    };
+    setMessages(prev => [...prev, msg]);
+    return msg;
+  }, []);
 
   const handleSend = useCallback(
     async (input: string) => {
       const userMsg: Msg = { role: "user", content: input };
       setMessages((prev) => [...prev, userMsg]);
       setIsLoading(true);
+      agentIndexRef.current = 0;
+      totalCharsRef.current = 0;
+
+      const convId = await ensureConversation();
+      await saveMessage(convId, userMsg);
+
+      // Add first agent message immediately
+      const firstAgentMsg = addAgentMessage(AGENTS[0]);
+      await saveMessage(convId, firstAgentMsg);
+      agentIndexRef.current = 1;
 
       let assistantSoFar = "";
+      
+      // Estimate ~4000 chars for a typical response
+      const estimatedTotal = 4000;
+
       const upsertAssistant = (chunk: string) => {
         assistantSoFar += chunk;
-        setMessages((prev) => {
-          const last = prev[prev.length - 1];
-          if (last?.role === "assistant") {
-            return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: assistantSoFar } : m));
-          }
-          return [...prev, { role: "assistant", content: assistantSoFar }];
-        });
+        totalCharsRef.current += chunk.length;
+
+        // Check if next agent should activate
+        const progress = totalCharsRef.current / estimatedTotal;
+        const nextIdx = agentIndexRef.current;
+        if (nextIdx < AGENTS.length && progress >= AGENTS[nextIdx].threshold) {
+          const agentMsg = addAgentMessage(AGENTS[nextIdx]);
+          saveMessage(convId, agentMsg);
+          agentIndexRef.current = nextIdx + 1;
+        }
 
         // Try to extract and render code as it streams
         const html = extractHtmlCode(assistantSoFar);
@@ -39,11 +148,18 @@ const Editor = () => {
         await streamChat({
           messages: [...messages, userMsg],
           onDelta: (chunk) => upsertAssistant(chunk),
-          onDone: () => {
+          onDone: async () => {
             setIsLoading(false);
-            // Final extraction
             const html = extractHtmlCode(assistantSoFar);
             if (html) setGeneratedCode(html);
+
+            // Save full assistant message (hidden in chat but persisted)
+            const assistantMsg: Msg = { role: "assistant", content: assistantSoFar };
+            await saveMessage(convId, assistantMsg);
+
+            // Final "done" agent message
+            const finalMsg = addAgentMessage(FINAL_AGENT);
+            await saveMessage(convId, finalMsg);
           },
         });
       } catch (e) {
@@ -52,7 +168,7 @@ const Editor = () => {
         toast.error(e instanceof Error ? e.message : "Ошибка генерации");
       }
     },
-    [messages]
+    [messages, ensureConversation, saveMessage, addAgentMessage]
   );
 
   const handleExport = useCallback(async () => {
@@ -81,7 +197,6 @@ const Editor = () => {
     <div className="h-screen flex flex-col bg-background">
       <EditorToolbar projectName="Мой проект" onExport={handleExport} onShare={handleShare} />
 
-      {/* Desktop: 3-column resizable */}
       <div className="flex-1 hidden md:block">
         <ResizablePanelGroup direction="horizontal" className="h-full">
           <ResizablePanel defaultSize={25} minSize={18}>
@@ -98,7 +213,6 @@ const Editor = () => {
         </ResizablePanelGroup>
       </div>
 
-      {/* Mobile: tabs */}
       <MobileTabs
         messages={messages}
         isLoading={isLoading}
