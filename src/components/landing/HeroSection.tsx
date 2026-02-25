@@ -6,9 +6,15 @@ import { useNavigate } from "react-router-dom";
 
 const examples = [
   "Лендинг для кофейни",
-  "Портфолио дизайнера",
+  "Сайт строительной компании",
   "Интернет-магазин",
   "Блог о путешествиях",
+];
+
+const stats = [
+  { value: "1 000+", label: "сайтов создано" },
+  { value: "50+", label: "шаблонов" },
+  { value: "30 сек", label: "среднее время" },
 ];
 
 const HeroSection = () => {
@@ -74,6 +80,15 @@ const HeroSection = () => {
               >
                 {ex}
               </button>
+            ))}
+          </div>
+
+          <div className="flex justify-center gap-8 mt-12">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <p className="text-2xl md:text-3xl font-bold text-primary">{s.value}</p>
+                <p className="text-xs text-muted-foreground mt-1">{s.label}</p>
+              </div>
             ))}
           </div>
         </motion.div>

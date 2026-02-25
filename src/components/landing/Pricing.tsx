@@ -5,21 +5,21 @@ import { Button } from "@/components/ui/button";
 const plans = [
   {
     name: "Бесплатный",
-    price: "0 ₽",
+    price: "0 ₸",
     period: "навсегда",
     features: ["3 проекта", "Базовые шаблоны", "Поддомен helphand.app", "Экспорт кода"],
     featured: false,
   },
   {
     name: "Про",
-    price: "990 ₽",
+    price: "4 990 ₸",
     period: "в месяц",
     features: ["Безлимит проектов", "Все шаблоны и ИИ-функции", "Свой домен", "Приоритетная поддержка", "Аналитика"],
     featured: true,
   },
   {
     name: "Команда",
-    price: "2 490 ₽",
+    price: "12 990 ₸",
     period: "в месяц",
     features: ["Всё из Про", "До 10 участников", "Совместная работа", "Ролевой доступ", "SLA и выделенная поддержка"],
     featured: false,
@@ -79,7 +79,7 @@ const Pricing = () => (
               className={`w-full ${plan.featured ? "glow-purple" : ""}`}
               variant={plan.featured ? "default" : "secondary"}
             >
-              {plan.price === "0 ₽" ? "Начать бесплатно" : "Выбрать план"}
+              {plan.price === "0 ₸" ? "Начать бесплатно" : "Выбрать план"}
             </Button>
           </motion.div>
         ))}
