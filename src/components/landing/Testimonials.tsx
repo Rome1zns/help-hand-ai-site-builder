@@ -23,16 +23,16 @@ const reviews = [
 ];
 
 const Testimonials = () => (
-  <section className="py-32 px-4">
+  <section className="py-16 md:py-32 px-4">
     <div className="container mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-20"
+        className="text-center mb-10 md:mb-20"
       >
-        <h2 className="text-3xl md:text-5xl font-bold mb-5 tracking-tight">Отзывы</h2>
+        <h2 className="text-2xl md:text-5xl font-bold mb-4 md:mb-5 tracking-tight">Отзывы</h2>
         <p className="text-muted-foreground text-lg">Что говорят наши пользователи</p>
       </motion.div>
 
@@ -44,7 +44,7 @@ const Testimonials = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.12 }}
-            className="glass-card rounded-2xl p-7 flex flex-col"
+            className="glass-card rounded-2xl p-5 md:p-7 flex flex-col"
           >
             <Quote size={28} className="text-primary/30 mb-5" />
             <p className="text-sm text-muted-foreground flex-1 mb-7 leading-relaxed">{r.text}</p>

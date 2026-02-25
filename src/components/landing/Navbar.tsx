@@ -15,8 +15,8 @@ const Navbar = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-white/5">
-      <nav className="container mx-auto flex items-center justify-between h-18 py-5 px-4">
-        <a href="#" className="text-xl font-bold tracking-tight">
+      <nav className="container mx-auto flex items-center justify-between h-14 md:h-18 py-3 md:py-5 px-4">
+        <a href="#" className="text-lg md:text-xl font-bold tracking-tight">
           Help <span className="text-primary">Hand</span>
         </a>
 

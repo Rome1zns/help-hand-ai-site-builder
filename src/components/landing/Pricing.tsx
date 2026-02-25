@@ -27,16 +27,16 @@ const plans = [
 ];
 
 const Pricing = () => (
-  <section id="pricing" className="py-32 px-4">
+  <section id="pricing" className="py-16 md:py-32 px-4">
     <div className="container mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-20"
+        className="text-center mb-10 md:mb-20"
       >
-        <h2 className="text-3xl md:text-5xl font-bold mb-5 tracking-tight">Тарифы</h2>
+        <h2 className="text-2xl md:text-5xl font-bold mb-4 md:mb-5 tracking-tight">Тарифы</h2>
         <p className="text-muted-foreground text-lg">Выберите план, который подходит вам</p>
       </motion.div>
 
@@ -48,9 +48,9 @@ const Pricing = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.15 }}
-            className={`relative rounded-2xl p-7 flex flex-col transition-all duration-400 ${
+            className={`relative rounded-2xl p-5 md:p-7 flex flex-col transition-all duration-400 ${
               plan.featured
-                ? "glass-strong border-primary/40 glow-accent scale-[1.05] shadow-2xl"
+                ? "glass-strong border-primary/40 glow-accent md:scale-[1.05] shadow-2xl"
                 : "glass-card"
             }`}
           >
@@ -62,7 +62,7 @@ const Pricing = () => (
 
             <h3 className="text-lg font-semibold mb-1.5">{plan.name}</h3>
             <div className="mb-7">
-              <span className="text-4xl font-bold tracking-tight">{plan.price}</span>
+              <span className="text-3xl md:text-4xl font-bold tracking-tight">{plan.price}</span>
               <span className="text-sm text-muted-foreground ml-1.5">/ {plan.period}</span>
             </div>
 
