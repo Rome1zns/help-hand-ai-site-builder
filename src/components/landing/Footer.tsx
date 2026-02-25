@@ -26,9 +26,9 @@ const columns = [
 ];
 
 const Footer = () => (
-  <footer className="border-t border-white/5 py-20 px-4">
+  <footer className="border-t border-white/5 py-12 md:py-20 px-4">
     <div className="container mx-auto">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-14">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-10 md:mb-14">
         <div className="col-span-2 md:col-span-1">
           <a href="#" className="text-xl font-bold tracking-tight">
             Help <span className="text-primary">Hand</span>

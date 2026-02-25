@@ -53,16 +53,16 @@ const projects = [
 ];
 
 const Gallery = () => (
-  <section id="gallery" className="py-32 px-4">
+  <section id="gallery" className="py-16 md:py-32 px-4">
     <div className="container mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-20"
+        className="text-center mb-10 md:mb-20"
       >
-        <h2 className="text-3xl md:text-5xl font-bold mb-5 tracking-tight">Примеры сайтов</h2>
+        <h2 className="text-2xl md:text-5xl font-bold mb-4 md:mb-5 tracking-tight">Примеры сайтов</h2>
         <p className="text-muted-foreground text-lg">Созданы на Help Hand за считанные секунды</p>
       </motion.div>
 
@@ -76,7 +76,7 @@ const Gallery = () => (
             transition={{ duration: 0.5, delay: i * 0.1 }}
             className="group glass-card rounded-3xl overflow-hidden cursor-pointer h-full"
           >
-            <div className="h-64 overflow-hidden relative">
+            <div className="h-48 md:h-64 overflow-hidden relative">
               <img
                 src={p.image}
                 alt={p.title}
@@ -85,7 +85,7 @@ const Gallery = () => (
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
             </div>
-            <div className="p-6">
+            <div className="p-4 md:p-6">
               <div className="flex items-center justify-between mb-2.5">
                 <span className="font-semibold">{p.title}</span>
                 <span className="text-xs px-3 py-1 rounded-full bg-primary/15 text-primary font-medium">{p.category}</span>

@@ -34,7 +34,7 @@ const AnimatedPreview = () => {
   }, []);
 
   return (
-    <section className="py-32 px-4">
+    <section className="py-16 md:py-32 px-4">
       <div className="container mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -42,8 +42,8 @@ const AnimatedPreview = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <h2 className="text-3xl md:text-5xl font-bold text-center mb-5 tracking-tight">Как это работает</h2>
-          <p className="text-center text-muted-foreground text-lg mb-14">Вы пишете — ИИ создаёт</p>
+          <h2 className="text-2xl md:text-5xl font-bold text-center mb-4 md:mb-5 tracking-tight">Как это работает</h2>
+          <p className="text-center text-muted-foreground text-base md:text-lg mb-8 md:mb-14">Вы пишете — ИИ создаёт</p>
 
           <div className="glass-strong rounded-3xl overflow-hidden glow-purple-lg hover:shadow-[0_0_100px_-20px_hsl(263_84%_55%_/_0.5)] transition-shadow duration-700">
             {/* Browser chrome */}
@@ -61,7 +61,7 @@ const AnimatedPreview = () => {
             </div>
 
             {/* Prompt area */}
-            <div className="px-6 py-5 border-b border-white/5">
+            <div className="px-4 md:px-6 py-4 md:py-5 border-b border-white/5">
               <div className="glass rounded-xl px-5 py-3 text-sm text-muted-foreground">
                 {typedText}
                 <span className="animate-pulse text-primary">|</span>
@@ -69,7 +69,7 @@ const AnimatedPreview = () => {
             </div>
 
             {/* Generated sections */}
-            <div className="p-6 space-y-4 min-h-[260px]">
+            <div className="p-4 md:p-6 space-y-4 min-h-[200px] md:min-h-[260px]">
               {visibleCount >= 1 && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass rounded-lg h-10 flex items-center px-4">
                   <div className="w-16 h-3 rounded bg-primary/40" />
@@ -88,7 +88,7 @@ const AnimatedPreview = () => {
                 </motion.div>
               )}
               {visibleCount >= 3 && (
-                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-3 gap-3">
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {[1, 2, 3].map((i) => (
                     <div key={i} className="glass rounded-lg p-3">
                       <div className="w-full h-12 rounded bg-white/5 mb-2" />
