@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const examples = [
   "Лендинг для кофейни",
@@ -12,6 +13,11 @@ const examples = [
 
 const HeroSection = () => {
   const [prompt, setPrompt] = useState("");
+  const navigate = useNavigate();
+
+  const handleGenerate = () => {
+    navigate("/editor", { state: { prompt } });
+  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
@@ -53,7 +59,7 @@ const HeroSection = () => {
                 placeholder="Опишите сайт, который хотите создать..."
                 className="flex-1 bg-transparent border-none outline-none px-4 py-4 text-foreground placeholder:text-muted-foreground text-sm md:text-base"
               />
-              <Button size="lg" className="rounded-xl shrink-0">
+              <Button size="lg" className="rounded-xl shrink-0" onClick={handleGenerate}>
                 <ArrowRight size={18} />
               </Button>
             </div>
