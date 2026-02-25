@@ -34,7 +34,7 @@ const AnimatedPreview = () => {
   }, []);
 
   return (
-    <section className="py-24 px-4">
+    <section className="py-32 px-4">
       <div className="container mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -42,34 +42,34 @@ const AnimatedPreview = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Как это работает</h2>
-          <p className="text-center text-muted-foreground mb-12">Вы пишете — ИИ создаёт</p>
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-5 tracking-tight">Как это работает</h2>
+          <p className="text-center text-muted-foreground text-lg mb-14">Вы пишете — ИИ создаёт</p>
 
-          <div className="glass-strong rounded-2xl overflow-hidden glow-purple-lg">
+          <div className="glass-strong rounded-3xl overflow-hidden glow-purple-lg hover:shadow-[0_0_100px_-20px_hsl(263_84%_55%_/_0.5)] transition-shadow duration-700">
             {/* Browser chrome */}
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10">
-              <div className="flex gap-1.5">
+            <div className="flex items-center gap-2 px-5 py-4 border-b border-white/10">
+              <div className="flex gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500/70" />
                 <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
                 <div className="w-3 h-3 rounded-full bg-green-500/70" />
               </div>
               <div className="flex-1 mx-4">
-                <div className="glass rounded-md px-3 py-1 text-xs text-muted-foreground max-w-xs mx-auto text-center">
+                <div className="glass rounded-lg px-4 py-1.5 text-xs text-muted-foreground max-w-xs mx-auto text-center">
                   helphand.app/preview
                 </div>
               </div>
             </div>
 
             {/* Prompt area */}
-            <div className="px-6 py-4 border-b border-white/5">
-              <div className="glass rounded-lg px-4 py-2 text-sm text-muted-foreground">
+            <div className="px-6 py-5 border-b border-white/5">
+              <div className="glass rounded-xl px-5 py-3 text-sm text-muted-foreground">
                 {typedText}
                 <span className="animate-pulse text-primary">|</span>
               </div>
             </div>
 
             {/* Generated sections */}
-            <div className="p-6 space-y-4 min-h-[240px]">
+            <div className="p-6 space-y-4 min-h-[260px]">
               {visibleCount >= 1 && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass rounded-lg h-10 flex items-center px-4">
                   <div className="w-16 h-3 rounded bg-primary/40" />

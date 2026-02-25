@@ -6,9 +6,11 @@ import Gallery from "@/components/landing/Gallery";
 import Testimonials from "@/components/landing/Testimonials";
 import Pricing from "@/components/landing/Pricing";
 import Footer from "@/components/landing/Footer";
+import ParticlesBackground from "@/components/landing/ParticlesBackground";
 
 const Index = () => (
   <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <ParticlesBackground />
     <Navbar />
     <HeroSection />
     <AnimatedPreview />
