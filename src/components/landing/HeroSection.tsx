@@ -72,6 +72,21 @@ const HeroSection = () => {
             </div>
           </div>
 
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="flex justify-center mt-6 md:mt-8"
+          >
+            <Button
+              onClick={handleGenerate}
+              className="w-full md:w-auto text-lg md:text-xl py-5 px-10 md:py-6 md:px-14 rounded-2xl btn-premium glow-purple font-bold tracking-wide h-auto"
+            >
+              Начать создавать
+              <ArrowRight size={22} className="ml-2" />
+            </Button>
+          </motion.div>
+
           <div className="flex overflow-x-auto hide-scrollbar md:flex-wrap justify-start md:justify-center gap-2.5 mt-6 md:mt-8 pb-2 md:pb-0">
             {examples.map((ex) => (
               <button
