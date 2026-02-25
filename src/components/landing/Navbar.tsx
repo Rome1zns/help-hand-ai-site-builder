@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const navLinks = [
   { label: "Примеры", href: "#gallery" },
@@ -9,6 +11,7 @@ const navLinks = [
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-white/5">
@@ -27,11 +30,26 @@ const Navbar = () => {
               {l.label}
             </a>
           ))}
+          <Button
+            onClick={() => navigate("/editor")}
+            className="btn-premium rounded-full px-6 text-primary-foreground"
+          >
+            Начать <ArrowRight className="ml-1 h-4 w-4" />
+          </Button>
         </div>
 
-        <button className="md:hidden text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex md:hidden items-center gap-3">
+          <Button
+            onClick={() => navigate("/editor")}
+            size="sm"
+            className="btn-premium rounded-full px-4 text-primary-foreground text-xs"
+          >
+            Начать
+          </Button>
+          <button className="text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence>
@@ -48,6 +66,12 @@ const Navbar = () => {
                   {l.label}
                 </a>
               ))}
+              <Button
+                onClick={() => { setMobileOpen(false); navigate("/editor"); }}
+                className="btn-premium rounded-full mt-2 text-primary-foreground w-full"
+              >
+                Начать создавать сайт <ArrowRight className="ml-1 h-4 w-4" />
+              </Button>
             </div>
           </motion.div>
         )}
