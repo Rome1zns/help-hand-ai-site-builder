@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, Mic, MicOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 const examples = [
   "Лендинг для кофейни",
@@ -20,6 +21,19 @@ const stats = [
 const HeroSection = () => {
   const [prompt, setPrompt] = useState("");
   const navigate = useNavigate();
+
+  const { isListening, transcript, startListening, stopListening, isSupported } =
+    useSpeechRecognition({
+      onResult: (text) => setPrompt((prev) => (prev ? prev + " " + text : text)),
+    });
+
+  const handleMicClick = () => {
+    if (isListening) {
+      stopListening();
+    } else {
+      startListening();
+    }
+  };
 
   const handleGenerate = () => {
     navigate("/editor", { state: { prompt } });
@@ -58,19 +72,33 @@ const HeroSection = () => {
           className="max-w-2xl mx-auto"
         >
           <div className="relative glass-strong rounded-2xl p-2 glow-accent">
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                placeholder="Опишите сайт, который хотите создать..."
-                className="flex-1 bg-transparent border-none outline-none px-5 py-5 text-foreground placeholder:text-muted-foreground text-sm md:text-base"
-              />
-              <Button size="lg" className="rounded-xl shrink-0 btn-premium px-6" onClick={handleGenerate}>
-                <ArrowRight size={18} />
-              </Button>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={isListening && transcript ? transcript : prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  placeholder="Опишите сайт, который хотите создать..."
+                  className="flex-1 bg-transparent border-none outline-none px-5 py-5 text-foreground placeholder:text-muted-foreground text-sm md:text-base"
+                />
+                {isSupported && (
+                  <button
+                    type="button"
+                    onClick={handleMicClick}
+                    className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 ${
+                      isListening
+                        ? "bg-red-500/20 text-red-400 pulse-recording"
+                        : "text-muted-foreground hover:text-foreground hover:bg-white/10"
+                    }`}
+                    title={isListening ? "Остановить запись" : "Голосовой ввод"}
+                  >
+                    {isListening ? <MicOff size={18} /> : <Mic size={18} />}
+                  </button>
+                )}
+                <Button size="lg" className="rounded-xl shrink-0 btn-premium px-6" onClick={handleGenerate}>
+                  <ArrowRight size={18} />
+                </Button>
+              </div>
             </div>
-          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 15 }}

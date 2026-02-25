@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, Loader2, User } from "lucide-react";
+import { Send, Loader2, User, Mic, MicOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { AGENTS, FINAL_AGENT } from "@/lib/agents";
 import type { Msg } from "@/lib/streamChat";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 interface ChatPanelProps {
   messages: Msg[];
@@ -20,6 +21,19 @@ const AgentAvatar = ({ agent, color, Icon }: { agent: string; color: string; Ico
 const ChatPanel = ({ messages, isLoading, onSend }: ChatPanelProps) => {
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const { isListening, transcript, startListening, stopListening, isSupported } =
+    useSpeechRecognition({
+      onResult: (text) => setInput((prev) => (prev ? prev + " " + text : text)),
+    });
+
+  const handleMicClick = () => {
+    if (isListening) {
+      stopListening();
+    } else {
+      startListening();
+    }
+  };
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -144,12 +158,27 @@ const ChatPanel = ({ messages, isLoading, onSend }: ChatPanelProps) => {
       <form onSubmit={handleSubmit} className="p-3 border-t border-border">
         <div className="flex gap-2">
           <input
-            value={input}
+            value={isListening && transcript ? transcript : input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Опишите сайт..."
             disabled={isLoading}
             className="flex-1 bg-secondary rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none border border-border focus:border-primary/50 transition-colors"
           />
+          {isSupported && (
+            <button
+              type="button"
+              onClick={handleMicClick}
+              disabled={isLoading}
+              className={`shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
+                isListening
+                  ? "bg-red-500/20 text-red-400 pulse-recording"
+                  : "bg-secondary border border-border text-muted-foreground hover:text-foreground hover:bg-secondary/80"
+              }`}
+              title={isListening ? "Остановить запись" : "Голосовой ввод"}
+            >
+              {isListening ? <MicOff size={15} /> : <Mic size={15} />}
+            </button>
+          )}
           <Button type="submit" size="icon" disabled={isLoading || !input.trim()} className="shrink-0 rounded-lg">
             {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
           </Button>
