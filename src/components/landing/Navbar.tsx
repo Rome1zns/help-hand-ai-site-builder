@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const navLinks = [
   { label: "Примеры", href: "#gallery" },
@@ -26,10 +25,6 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="hidden md:flex items-center gap-3">
-          <Button variant="ghost" size="sm">Войти</Button>
-          <Button size="sm" className="glow-purple">Начать бесплатно</Button>
-        </div>
 
         <button className="md:hidden text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -50,8 +45,6 @@ const Navbar = () => {
                   {l.label}
                 </a>
               ))}
-              <Button variant="ghost" size="sm" className="w-full">Войти</Button>
-              <Button size="sm" className="w-full glow-purple">Начать бесплатно</Button>
             </div>
           </motion.div>
         )}
