@@ -40,7 +40,7 @@ const projects = [
     title: "Студия дизайна",
     category: "Агентство",
     color: "from-purple-900/40 to-purple-700/20",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop",
     description: "Портфолио дизайн-студии с кейсами и отзывами клиентов",
   },
 ];
