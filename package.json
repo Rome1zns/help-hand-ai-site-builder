@@ -1,5 +1,6 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "help-hand-ai-site-builder",
+  "description": "AI-конструктор сайтов с landing page, editor flow и demo-страницами",
   "private": true,
   "version": "0.0.0",
   "type": "module",
