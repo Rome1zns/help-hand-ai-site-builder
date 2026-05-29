@@ -1,73 +1,73 @@
-# Welcome to your Lovable project
+# Help Hand AI Site Builder
 
-## Project info
+Help Hand — интерфейс AI-конструктора сайтов. Пользователь описывает идею, может использовать голосовой ввод, открывает editor flow и смотрит demo-страницы для разных ниш.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Для кого
 
-## How can I edit this code?
+Проект рассчитан на предпринимателей и малый бизнес, которым нужен быстрый прототип сайта без дизайнера и разработчика. Для портфолио это demo AI SaaS-продукта с маркетинговой страницей и генеративным editor experience.
 
-There are several ways of editing your application.
+## Ключевые функции
 
-**Use Lovable**
+- landing page AI-site-builder продукта;
+- prompt input и голосовой ввод;
+- переход в editor;
+- streaming chat integration через Supabase Edge Function;
+- демо-сайты для кофейни, стройки, tech store, fitness, travel и design studio;
+- галерея, pricing, testimonials и feature-блоки;
+- responsive UI и motion-анимации.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Стек
 
-Changes made via Lovable will be committed automatically to this repo.
+- Vite;
+- React 18;
+- TypeScript;
+- React Router;
+- Supabase;
+- Supabase Edge Functions;
+- Tailwind CSS;
+- shadcn/ui;
+- framer-motion;
+- JSZip;
+- Web Speech API.
 
-**Use your preferred IDE**
+## Архитектура
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Landing собирается из `src/components/landing`. Editor находится в `src/pages/Editor.tsx`. Демо-страницы лежат в `src/pages/demos`. Streaming-запросы к AI backend вынесены в `src/lib/streamChat.ts`.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Локальный запуск
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+cp .env.example .env
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Переменные окружения
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```env
+VITE_SUPABASE_URL=
+VITE_SUPABASE_PUBLISHABLE_KEY=
+VITE_SUPABASE_PROJECT_ID=
+```
 
-**Use GitHub Codespaces**
+Supabase Edge Function `generate-site` должна быть настроена отдельно. Реальные ключи не коммитятся.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Проверки
 
-## What technologies are used for this project?
+```bash
+npm run lint
+npm run build
+npm run test
+```
 
-This project is built with:
+## Статус
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+MVP/demo AI SaaS-интерфейса. Для production нужны billing, auth, сохранение проектов, лимиты генерации и надежный backend для генерации сайтов.
 
-## How can I deploy this project?
+## Что демонстрирует в портфолио
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- AI-product интерфейс;
+- landing + editor flow;
+- voice input и streaming UX;
+- набор demo verticals;
+- упаковку генеративного продукта в SaaS-формат.
